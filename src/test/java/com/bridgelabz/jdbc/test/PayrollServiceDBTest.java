@@ -24,7 +24,6 @@ public class PayrollServiceDBTest {
 	@Before
 	public void firstinstance() {
 		config = Config.getConfig();
-
 	}
 
 	@Test
@@ -49,6 +48,7 @@ public class PayrollServiceDBTest {
 	public void givenCorrectUrl_userName_paswwordShouldGetConnection() {
 		try {
 			con = config.getConnection(URL, USER_NAME, PASSWORD);
+
 			assertNotNull(con);
 		} catch (PayrollServiceDBException e) {
 		}
