@@ -33,13 +33,47 @@ public class EmployeePayroll {
 		this.netPay = netPay;
 		this.date = date;
 	}
-	
+
+	public String getName() {
+		return name;
+	}
+
+	public double getBasicPay() {
+		return basicPay;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setBasicPay(double basicPay) {
+		this.basicPay = basicPay;
+	}
+
 	@Override
 	public String toString() {
 		return "EmployeePayroll [id=" + id + ", name=" + name + ", gender=" + gender + ", phoneNumber=" + phoneNumber
 				+ ", address=" + address + ", department=" + department + ", basicPay=" + basicPay + ", deductions="
 				+ deductions + ", taxablePay=" + taxablePay + ", incomeTax=" + incomeTax + ", netPay=" + netPay
 				+ ", date=" + date + "]";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EmployeePayroll other = (EmployeePayroll) obj;
+		
+		return Integer.compare(id, other.id)==0&&name.equals(other.name)&&gender.equals(other.gender)&&
+				Integer.compare(phoneNumber, other.phoneNumber)==0&&address.equals(other.address)&&
+				department.equals(other.department)&&Double.compare(basicPay, other.basicPay)==0&&
+				Double.compare(deductions, other.deductions)==0&&Double.compare(taxablePay, other.taxablePay)==0&&
+				Double.compare(incomeTax, other.incomeTax)==0&&Double.compare(netPay, other.netPay)==0&&
+				String.valueOf(date).equals(String.valueOf(other.date));
 	}
 
 }

@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import com.bridgelabz.jdbc.config.Config;
 import com.bridgelabz.jdbc.customexception.PayrollServiceDBException;
 import com.bridgelabz.jdbc.entity.EmployeePayroll;
+import com.bridgelabz.jdbc.entity.EmployeePayrollList;
 import com.bridgelabz.jdbc.services.StatementServices;
+import com.bridgelabz.jdbc.utility.updateDBServices;
 
 public class EmployeePayrollDBApp {
 
@@ -16,10 +18,12 @@ public class EmployeePayrollDBApp {
 	public static void main(String[] args) {
 
 		Config config = Config.getConfig();
+		updateDBServices input = new updateDBServices();
+		EmployeePayroll Payroll;
+		ArrayList<EmployeePayroll> payrollList = EmployeePayrollList.getEmployeePayrolls();
 
 		/*
-		 * just for checking driver 
-		 * Driver driver = config.getDrivers();
+		 * just for checking driver Driver driver = config.getDrivers();
 		 * System.out.println(driver);
 		 */
 
@@ -34,14 +38,25 @@ public class EmployeePayrollDBApp {
 			System.out.println("\nConnection failed!!!!!!!\n");
 			e.printStackTrace();
 		}
-		
+
 		ArrayList<EmployeePayroll> employeePayrolls;
-		StatementServices services = new StatementServices();
+		StatementServices services = StatementServices.getStatementInstance();
 		employeePayrolls = services.readPayrollData(con);
 
 		for (EmployeePayroll employeePayroll : employeePayrolls) {
 			System.out.println(employeePayroll);
 		}
+		
+		System.out.println("\n");
+		employeePayrolls = input.update(con);
+		for (EmployeePayroll updatedpayroll : employeePayrolls) {
+			for (EmployeePayroll payroll : payrollList) {
+				if(updatedpayroll.getName().equals(payroll.getName())) {
+					System.out.println(payroll);
+				}
+			}
+		}		
+		System.out.println(services.checkUpdate(con, "Terrisa"));
 	}
 
 }
