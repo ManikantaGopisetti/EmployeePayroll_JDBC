@@ -1,8 +1,11 @@
 package com.bridgelabz.jdbc.test;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import com.bridgelabz.jdbc.config.Config;
 import com.bridgelabz.jdbc.customexception.PayrollServiceDBException;
+import com.bridgelabz.jdbc.entity.EmployeePayroll;
+import com.bridgelabz.jdbc.services.StatementServices;
 
 public class EmployeePayrollDBApp {
 
@@ -30,6 +33,14 @@ public class EmployeePayrollDBApp {
 		} catch (PayrollServiceDBException e) {
 			System.out.println("\nConnection failed!!!!!!!\n");
 			e.printStackTrace();
+		}
+		
+		ArrayList<EmployeePayroll> employeePayrolls;
+		StatementServices services = new StatementServices();
+		employeePayrolls = services.readPayrollData(con);
+
+		for (EmployeePayroll employeePayroll : employeePayrolls) {
+			System.out.println(employeePayroll);
 		}
 	}
 
