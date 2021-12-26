@@ -48,7 +48,6 @@ public class Config {
 			Enumeration<java.sql.Driver> driverList = DriverManager.getDrivers();
 			while (driverList.hasMoreElements()) {
 				driver = (Driver) driverList.nextElement();
-				System.out.println(driver.getClass().getName() + "\n");
 			}
 			return driver;
 		}

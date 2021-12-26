@@ -1,11 +1,8 @@
 package com.bridgelabz.jdbc.test;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.Enumeration;
 import com.bridgelabz.jdbc.config.Config;
 import com.bridgelabz.jdbc.customexception.PayrollServiceDBException;
-import com.mysql.cj.jdbc.Driver;
 
 public class EmployeePayrollDBApp {
 
@@ -17,20 +14,23 @@ public class EmployeePayrollDBApp {
 
 		Config config = Config.getConfig();
 
-		Driver driver = config.getDrivers();
+		/*
+		 * just for checking driver 
+		 * Driver driver = config.getDrivers();
+		 * System.out.println(driver);
+		 */
 
-		Connection con;
+		Connection con = null;
 
 		try {
 			con = config.getConnection(URL, USER_NAME, PASSWORD);
 			if (con != null) {
-				System.out.println("\nConnection is successfull!!!!!!!");
+				System.out.println("\nConnection is successfull!!!!!!!\n");
 			}
 		} catch (PayrollServiceDBException e) {
 			System.out.println("\nConnection failed!!!!!!!\n");
 			e.printStackTrace();
 		}
-
 	}
 
 }
