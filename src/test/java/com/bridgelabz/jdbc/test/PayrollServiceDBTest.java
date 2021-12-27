@@ -57,7 +57,6 @@ public class PayrollServiceDBTest {
 	public void givenCorrectUrl_userName_paswwordShouldGetConnection() {
 		try {
 			con = config.getConnection(URL, USER_NAME, PASSWORD);
-
 			assertNotNull(con);
 		} catch (PayrollServiceDBException e) {
 		}
@@ -65,25 +64,14 @@ public class PayrollServiceDBTest {
 	
 	@Test
 	public void testReadingDataShouldReturnEmployeePayRollList() {
-		try {
-			con = config.getConnection(URL, USER_NAME, PASSWORD);
 			employeePayrolls = services.readPayrollData(con);
 			assertEquals(5, employeePayrolls.size());
-		} catch (PayrollServiceDBException e) {
-		}
 	}
 	
 	@Test
 	public void testUpdateSalaryShouldSyncWithEmployeePayRollList() {
-		try {
-			con = config.getConnection(URL, USER_NAME, PASSWORD);
-			
 			employeePayrolls= services.updateSalary(con, "Terrisa", 3000000.00);  
-			assertEquals(services.checkUpdate(con, "Terrisa"), 3000000.00,0.0);
-		} catch (PayrollServiceDBException e) {
-			e.printStackTrace();
-		}
+			assertEquals(employeePayrolls.get(4),services.checkUpdate(con, "Terrisa"));
 	}
-	
-	
+		
 }

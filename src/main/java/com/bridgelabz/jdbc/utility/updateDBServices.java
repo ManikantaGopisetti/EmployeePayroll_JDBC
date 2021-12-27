@@ -21,7 +21,7 @@ public class updateDBServices {
 			choice = sc.nextInt();
 			switch (choice) {
 			case 1:
-				System.out.print("Enter Salary to be updated: :");
+				System.out.print("Enter Salary to be updated : ");
 				double salary = sc.nextDouble();
 				return services.updateSalary(con, name, salary);
 			case 2:

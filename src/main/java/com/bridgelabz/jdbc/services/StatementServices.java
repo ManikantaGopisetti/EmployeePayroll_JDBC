@@ -35,10 +35,11 @@ public class StatementServices {
 			statement = con.createStatement();
 			ResultSet resultSet = statement.executeQuery(FETCH);
 			while (resultSet.next()) {
+
 				payroll = new EmployeePayroll(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
 						resultSet.getInt(4), resultSet.getString(5), resultSet.getString(6), resultSet.getDouble(7),
 						resultSet.getDouble(8), resultSet.getDouble(9), resultSet.getDouble(10),
-						resultSet.getDouble(11), resultSet.getDate(12));
+						resultSet.getDouble(11), (java.util.Date) resultSet.getDate(12));
 
 				payrollList.add(payroll);
 			}
@@ -53,7 +54,7 @@ public class StatementServices {
 	public ArrayList<EmployeePayroll> updateSalary(Connection con, String name, double salary) {
 
 		String query = "UPDATE employee_payroll ep LEFT JOIN payroll_details pd ON ep.id = pd.employee_id set basicPay="
-						+ salary + " WHERE name='" + name + "'";
+				+ salary + " WHERE name='" + name + "'";
 		payrollList = EmployeePayrollList.getEmployeePayrolls();
 		try {
 			Statement statement = con.createStatement();
@@ -71,27 +72,32 @@ public class StatementServices {
 		return null;
 	}
 
-	public double checkUpdate(Connection con, String name) {
-
+	public EmployeePayroll checkUpdate(Connection con, String name) {
+		payroll = null;
 		payrollList = EmployeePayrollList.getEmployeePayrolls();
-		String query = String.format("SELECT basicPay FROM employee_payroll ep LEFT JOIN payroll_details pd ON ep.id=pd.employee_id WHERE name='%s';",name);
-		double updatedsal = 0;
+		String query = String.format(
+				"SELECT id,name,gender,phoneNumber,address,departmentName,basicPay,deductions,taxablepay,incomeTax,netPay,startDate  "
+						+ "FROM employee_payroll ep LEFT JOIN payroll_details pd ON ep.id = pd.employee_id "
+						+ "LEFT outer JOIN employee_department ed ON ep.id=ed.emp_id "
+						+ "LEFT outer JOIN department d ON ed.dept_id=d.department_id WHERE name='%s';",
+				name);
 		try {
 			statement = con.createStatement();
 			ResultSet resultSet = statement.executeQuery(query);
 			while (resultSet.next()) {
-				updatedsal = resultSet.getDouble(1);
-				for (EmployeePayroll employeePayroll : payrollList) {
-					if (employeePayroll.getName().equals(name)) {
-						return updatedsal;
-					}
-				}
+				payroll = new EmployeePayroll(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3),
+						resultSet.getInt(4), resultSet.getString(5), resultSet.getString(6), resultSet.getDouble(7),
+						resultSet.getDouble(8), resultSet.getDouble(9), resultSet.getDouble(10),
+						resultSet.getDouble(11), (java.util.Date) resultSet.getDate(12));
+
 			}
+			return payroll;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return updatedsal;
+		return null;
+
 	}
 
 }
