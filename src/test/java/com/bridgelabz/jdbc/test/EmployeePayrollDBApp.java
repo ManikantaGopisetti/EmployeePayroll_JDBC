@@ -48,18 +48,10 @@ public class EmployeePayrollDBApp {
 		}
 		
 		System.out.println("\n");
-		employeePayrolls = input.update(con);
-		for (EmployeePayroll updatedpayroll : employeePayrolls) {
-			for (EmployeePayroll payroll : payrollList) {
-				if(updatedpayroll.getName().equals(payroll.getName())) {
-					System.out.println(payroll);
-				}
-			}
-		}		
+		employeePayrolls = input.update(con);	
+		System.out.println("\n");
 		System.out.println(services.checkUpdate(con, "Terrisa"));
 		
 	}
-	
-	
 
 }
