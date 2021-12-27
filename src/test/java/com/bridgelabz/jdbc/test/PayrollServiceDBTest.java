@@ -20,6 +20,7 @@ public class PayrollServiceDBTest {
 
 	static Config config;
 	static Connection con;
+	EmployeePayroll payroll;
 	static ArrayList<EmployeePayroll> employeePayrolls;
 	static StatementServices services;
 	private static final String URL = "jdbc:mysql://localhost:3306/payroll_service";
@@ -29,7 +30,8 @@ public class PayrollServiceDBTest {
 	@Before
 	public void firstinstance() {
 		config = Config.getConfig();
-		services = new StatementServices();
+		services = StatementServices.getStatementInstance();
+		payroll=null;
 		employeePayrolls = null;
 	}
 
@@ -55,7 +57,6 @@ public class PayrollServiceDBTest {
 	public void givenCorrectUrl_userName_paswwordShouldGetConnection() {
 		try {
 			con = config.getConnection(URL, USER_NAME, PASSWORD);
-
 			assertNotNull(con);
 		} catch (PayrollServiceDBException e) {
 		}
@@ -63,12 +64,14 @@ public class PayrollServiceDBTest {
 	
 	@Test
 	public void testReadingDataShouldReturnEmployeePayRollList() {
-		try {
-			con = config.getConnection(URL, USER_NAME, PASSWORD);
 			employeePayrolls = services.readPayrollData(con);
 			assertEquals(5, employeePayrolls.size());
-		} catch (PayrollServiceDBException e) {
-		}
 	}
-
+	
+	@Test
+	public void testUpdateSalaryShouldSyncWithEmployeePayRollList() {
+			employeePayrolls= services.updateSalary(con, "Terrisa", 3000000.00);  
+			assertEquals(employeePayrolls.get(4),services.checkUpdate(con, "Terrisa"));
+	}
+		
 }
